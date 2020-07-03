@@ -3,7 +3,7 @@
 This Flex plugin adds a timeout to automatically complete tasks in wrapup status. 
 
 <p align="center">
-    <img src="screenshots/example2.png?raw=true" width="800" >
+    <img src="screenshots/example.png?raw=true" width="800" >
 </p>
 
 ## How to use
