@@ -1,50 +1,21 @@
-# Your custom Twilio Flex Plugin
+# Automatic Completion of Tasks in Wrapup Status
 
-Twilio Flex Plugins allow you to customize the appearance and behavior of [Twilio Flex](https://www.twilio.com/flex). If you want to learn more about the capabilities and how to use the API, check out our [Flex documentation](https://www.twilio.com/docs/flex).
+This Flex plugin adds a timeout to automatically complete tasks in wrapup status. 
 
-## Setup
+<p align="center">
+    <img src="screenshots/example.png?raw=true" width="500" >
+</p>
 
-Make sure you have [Node.js](https://nodejs.org) as well as [`npm`](https://npmjs.com) installed.
+## How to use
 
-Afterwards, install the dependencies by running `npm install`:
+1. Clone this repository
 
-```bash
-cd 
+2. Copy .env.example to .env and populate the appropriate environment variables.
 
-# If you use npm
-npm install
-```
+3. cd into ./serverless/ then run `npm install` and then `twilio serverless:deploy` (optionally you can run locally with `twilio serverless:start --ngrok=""`
 
-## Development
+4. Copy `public/appConfig.example.js` to `public/appConfig.js`
 
-In order to develop locally, you can use the Webpack Dev Server by running:
+5. Run `npm install`
 
-```bash
-npm start
-```
-
-This will automatically start up the Webpack Dev Server and open the browser for you. Your app will run on `http://localhost:3000`. If you want to change that you can do this by setting the `PORT` environment variable:
-
-```bash
-PORT=3001 npm start
-```
-
-When you make changes to your code, the browser window will be automatically refreshed.
-
-## Deploy
-
-When you are ready to deploy your plugin, in your terminal run:
-
-```bash
-npm run deploy
-```
-
-This will publish your plugin as a Private Asset that is accessible by the Functions & Assets API. If you want to deploy your plugin as a Public Asset, you may pass --public to your deploy command:
-
-```bash
-npm run deploy --public
-```
-
-For more details on deploying your plugin, refer to the [deploying your plugin guide](https://www.twilio.com/docs/flex/plugins#deploying-your-plugin).
-
-Note: Common packages like `React`, `ReactDOM`, `Redux` and `ReactRedux` are not bundled with the build because they are treated as external dependencies so the plugin will depend on Flex to provide them globally.
+6. cd back to the root folder and run `npm start` to run locally or `npm run-script build` and deploy the generated ./build/plugin-dialpad.js to [twilio assests](https://www.twilio.com/console/assets/public) to include plugin with hosted Flex. Also, you want to use Twilio Serverless, just run `npm run deploy` to send your plugin directly to your Flex.
