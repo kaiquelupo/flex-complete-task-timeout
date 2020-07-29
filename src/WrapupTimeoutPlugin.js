@@ -17,7 +17,7 @@ export default class WrapupTimeoutPlugin extends FlexPlugin {
    * @param flex { typeof import('@twilio/flex-ui') }
    * @param manager { import('@twilio/flex-ui').Manager }
    */
-  init(flex) {
+  init(flex, manager) {
 
     flex.Notifications.registerNotification({
       id: "automaticTaskCompletionWarning",
@@ -25,21 +25,30 @@ export default class WrapupTimeoutPlugin extends FlexPlugin {
       type: flex.NotificationType.info
     });
 
-    flex.Actions.addListener("beforeHangupCall", (payload) => {
+    manager.workerClient.on('reservationCreated', reservation => {
 
-      const { taskSid } = payload.task;
-      const { name, from} = payload.task.attributes;
-      
-      setTimeout(() => {
-        payload.task.complete();
-        
-        flex.Notifications.showNotification("automaticTaskCompletionWarning", { 
-          taskSid,
-          name: name !== "" ? name : from
-        });
+      const trueReservation = reservation.addListener
+        ? reservation
+        : reservation.source;
 
-      }, parseInt(process.env.REACT_APP_TIMEOUT));
+      trueReservation.addListener('wrapup', payload => {
 
+        const { sid, task:  { attributes: { name, from }} } = payload;
+
+        setTimeout(() => {
+
+          flex.Actions.invokeAction('CompleteTask', {
+            sid: sid,
+          });
+          
+          flex.Notifications.showNotification("automaticTaskCompletionWarning", { 
+            taskSid: sid,
+            name: name !== "" ? name : from
+          });
+  
+        }, parseInt(process.env.REACT_APP_TIMEOUT));
+
+      });
     });
     
   }
